@@ -1,5 +1,11 @@
 ---
+import type { SanityDocument } from "@sanity/client"
+import { sanityClient } from "sanity:client"
 
+
+const PROFILE_QUERY = '*[_type == "profile"]{ _id, title }'
+
+const profiles = await sanityClient.fetch<SanityDocument[]>(PROFILE_QUERY);
 ---
 
 <html lang="en">
@@ -11,6 +17,8 @@
 		<title>Astro</title>
 	</head>
 	<body>
-		<h1>This is my homepage!</h1>
+		{profiles.map((profile) => (
+			<h1>{profile.title}</h1>
+		))}
 	</body>
 </html>
